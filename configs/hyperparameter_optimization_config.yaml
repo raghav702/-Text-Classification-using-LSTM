@@ -1,0 +1,144 @@
+# Hyperparameter Optimization Configuration for LSTM Sentiment Classifier
+
+# Optimization Method Configuration
+optimization:
+  method: "random"  # Options: grid, random, bayesian
+  n_iter: 30        # For random search
+  n_calls: 50       # For Bayesian optimization
+  n_initial_points: 10  # Initial random points for Bayesian optimization
+
+# Cross-Validation Settings
+cross_validation:
+  n_folds: 3
+  stratified: true
+  shuffle: true
+  random_state: 42
+
+# Data Configuration
+data:
+  data_dir: "data/imdb"
+  subset_size: 5000  # Use subset for faster optimization (null for full dataset)
+  max_vocab_size: 10000
+  max_sequence_length: 500
+  min_word_freq: 2
+
+# Hyperparameter Space Configuration
+hyperparameter_space:
+  use_default_space: false
+  
+  # Model Architecture Parameters
+  tune_hidden_dim: true
+  tune_n_layers: true
+  tune_dropout: true
+  tune_embedding_dim: false  # Set to false if using fixed GloVe embeddings
+  
+  # Training Parameters
+  tune_learning_rate: true
+  tune_weight_decay: true
+  tune_batch_size: true
+  
+  # Optimization Parameters
+  tune_optimizer: true
+  tune_scheduler: true
+  tune_gradient_clip: false
+
+# Default Model Parameters (used when not tuning)
+model:
+  embedding_dim: 300
+  hidden_dim: 128
+  n_layers: 2
+  dropout: 0.3
+  bidirectional: true
+
+# Default Training Parameters
+training:
+  epochs: 8  # Reduced for faster hyperparameter search
+  optimizer_type: "adamw"
+  scheduler_type: "plateau"
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  gradient_clip_type: "norm"
+  gradient_clip_value: 1.0
+  accumulation_steps: 1
+  early_stopping_patience: 3  # Reduced for faster search
+
+# GloVe Embeddings Configuration
+glove:
+  use_glove: true
+  glove_corpus: "6B"
+  freeze_embeddings: false
+  glove_cache_dir: "data/glove"
+
+# System Configuration
+system:
+  device: "auto"  # Options: cpu, cuda, auto
+  n_jobs: 1       # Number of parallel jobs
+  seed: 42
+
+# Output Configuration
+output:
+  output_dir: "hyperparameter_optimization"
+  
+# Logging Configuration
+logging:
+  log_level: "INFO"
+  log_dir: "logs"
+
+# Quick Search Configurations for Different Scenarios
+
+# Fast Search (for testing)
+fast_search:
+  optimization:
+    method: "random"
+    n_iter: 10
+  cross_validation:
+    n_folds: 2
+  data:
+    subset_size: 1000
+  training:
+    epochs: 3
+    early_stopping_patience: 2
+
+# Comprehensive Search (for production)
+comprehensive_search:
+  optimization:
+    method: "bayesian"
+    n_calls: 100
+    n_initial_points: 20
+  cross_validation:
+    n_folds: 5
+  data:
+    subset_size: null  # Use full dataset
+  training:
+    epochs: 15
+    early_stopping_patience: 5
+  hyperparameter_space:
+    tune_embedding_dim: true
+    tune_gradient_clip: true
+
+# Architecture-focused Search
+architecture_search:
+  hyperparameter_space:
+    tune_hidden_dim: true
+    tune_n_layers: true
+    tune_dropout: true
+    tune_embedding_dim: true
+    tune_learning_rate: false
+    tune_weight_decay: false
+    tune_batch_size: false
+    tune_optimizer: false
+    tune_scheduler: false
+
+# Training-focused Search
+training_search:
+  hyperparameter_space:
+    tune_hidden_dim: false
+    tune_n_layers: false
+    tune_dropout: false
+    tune_embedding_dim: false
+    tune_learning_rate: true
+    tune_weight_decay: true
+    tune_batch_size: true
+    tune_optimizer: true
+    tune_scheduler: true
+    tune_gradient_clip: true

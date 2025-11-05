@@ -1,0 +1,22 @@
+# LSTM Sentiment Classifier - Evaluation Configuration
+# This file contains configurable parameters for evaluation
+
+# Model Configuration
+model_path: "models/lstm_sentiment_model.pth"
+vocab_path: "models/lstm_sentiment_model_vocabulary.pth"
+data_dir: "data/imdb"
+
+# Evaluation Parameters
+batch_size: 64
+device: "auto"  # Options: auto, cpu, cuda
+num_workers: 4
+
+# Output Configuration
+output_dir: "evaluation_results"
+show_plots: false
+no_visualizations: false
+no_reports: false
+
+# System Configuration
+log_level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+log_file: null

@@ -1,0 +1,35 @@
+# Quick Training Configuration
+# Minimal configuration for fast training and testing
+
+# Data Configuration
+data_dir: "data/imdb"
+batch_size: 32
+max_vocab_size: 5000
+max_sequence_length: 200
+validation_split: 0.2
+
+# Model Architecture (smaller model)
+embedding_dim: 100
+hidden_dim: 64
+n_layers: 1
+dropout: 0.2
+bidirectional: false
+
+# Training Parameters (fewer epochs)
+epochs: 5
+learning_rate: 0.01
+scheduler: "none"
+early_stopping_patience: 3
+
+# GloVe Embeddings (disabled for speed)
+use_glove: false
+
+# Output Configuration
+output_dir: "models/quick"
+model_name: "quick_lstm_model"
+add_timestamp: true
+
+# System Configuration
+device: "auto"
+num_workers: 2
+log_level: "INFO"

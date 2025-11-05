@@ -1,0 +1,133 @@
+# Data Augmentation and Advanced Preprocessing Configuration
+
+# Text Augmentation Settings
+text_augmentation:
+  # Basic augmentation parameters
+  synonym_prob: 0.15          # Probability of synonym replacement
+  insert_prob: 0.05           # Probability of word insertion
+  delete_prob: 0.05           # Probability of word deletion
+  swap_prob: 0.10             # Probability of word swapping
+  max_augmentations: 1        # Maximum augmentations per text
+  preserve_length: true       # Whether to preserve approximate text length
+  
+  # Quality control
+  min_similarity: 0.7         # Minimum similarity threshold for validation
+  augmentation_factor: 0.3    # Fraction of dataset to augment
+  
+  # Noise injection
+  noise_prob: 0.02           # Probability of character-level noise
+  
+# Back-translation Settings
+back_translation:
+  enabled: false              # Enable back-translation (requires translation API)
+  intermediate_languages:     # Languages for back-translation
+    - "es"                   # Spanish
+    - "fr"                   # French
+    - "de"                   # German
+    - "it"                   # Italian
+  num_augmentations: 1       # Number of back-translations per text
+
+# Advanced Preprocessing Settings
+advanced_preprocessing:
+  # Tokenization
+  tokenizer_type: "advanced"  # Options: basic, advanced, nltk, spacy
+  
+  # Text normalization
+  use_lemmatization: true     # Apply lemmatization
+  use_stemming: false         # Apply stemming (mutually exclusive with lemmatization)
+  remove_stopwords: false     # Remove stopwords (be careful with sentiment analysis)
+  handle_negation: true       # Handle negation specially
+  preserve_entities: true     # Preserve named entities
+  
+  # Vocabulary settings
+  max_vocab_size: 10000      # Maximum vocabulary size
+  min_freq: 2                # Minimum word frequency threshold
+  max_length: 500            # Maximum sequence length
+  
+  # Text cleaning
+  normalize_unicode: true     # Normalize unicode characters
+  handle_contractions: true  # Expand contractions
+  remove_html: true          # Remove HTML tags
+  handle_urls: true          # Replace URLs with tokens
+  handle_mentions: true      # Replace mentions with tokens
+  handle_hashtags: true      # Replace hashtags with tokens
+
+# Data Balancing Settings
+data_balancing:
+  enabled: true              # Enable automatic data balancing
+  target_balance: 0.5        # Target ratio for minority class (0.5 = perfectly balanced)
+  method: "augmentation"     # Options: augmentation, undersampling, oversampling
+  
+# Preprocessing Pipeline Configurations
+preprocessing_pipelines:
+  # Basic pipeline for quick experiments
+  basic:
+    tokenizer_type: "basic"
+    use_lemmatization: false
+    use_stemming: false
+    remove_stopwords: false
+    handle_negation: false
+    preserve_entities: false
+    
+  # Standard pipeline for production
+  standard:
+    tokenizer_type: "advanced"
+    use_lemmatization: true
+    use_stemming: false
+    remove_stopwords: false
+    handle_negation: true
+    preserve_entities: true
+    
+  # NLTK-based pipeline
+  nltk_enhanced:
+    tokenizer_type: "nltk"
+    use_lemmatization: true
+    use_stemming: false
+    remove_stopwords: false
+    handle_negation: true
+    preserve_entities: true
+    
+  # spaCy-based pipeline (requires spaCy installation)
+  spacy_enhanced:
+    tokenizer_type: "spacy"
+    use_lemmatization: true
+    use_stemming: false
+    remove_stopwords: false
+    handle_negation: true
+    preserve_entities: true
+    
+  # Minimal preprocessing for comparison
+  minimal:
+    tokenizer_type: "basic"
+    use_lemmatization: false
+    use_stemming: false
+    remove_stopwords: false
+    handle_negation: false
+    preserve_entities: false
+
+# Evaluation Settings
+evaluation:
+  # Preprocessing comparison
+  compare_methods: true       # Compare different preprocessing methods
+  sample_size: 1000          # Sample size for comparison
+  
+  # Feature extraction
+  extract_features: true     # Extract text features for analysis
+  
+  # Augmentation quality assessment
+  validate_augmentations: true  # Validate augmentation quality
+  quality_threshold: 0.7     # Quality threshold for augmentations
+
+# Experimental Settings
+experimental:
+  # Character-level augmentation
+  char_level_noise: false    # Add character-level noise
+  char_noise_prob: 0.01     # Probability of character noise
+  
+  # Contextual augmentation (requires word embeddings)
+  contextual_replacement: false  # Use word embeddings for synonym replacement
+  embedding_similarity_threshold: 0.6  # Similarity threshold for contextual replacement
+  
+  # Advanced balancing strategies
+  class_aware_augmentation: false  # Different augmentation strategies per class
+  sentiment_preserving: true      # Ensure augmentations preserve sentiment

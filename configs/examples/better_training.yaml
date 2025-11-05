@@ -1,0 +1,48 @@
+# Better Training Configuration
+# Balanced configuration for good performance without excessive resources
+
+# Data Configuration
+data_dir: "data/imdb"
+batch_size: 64
+max_vocab_size: 15000
+max_sequence_length: 400
+min_word_freq: 2
+validation_split: 0.2
+
+# Model Architecture (medium-sized model)
+embedding_dim: 300
+hidden_dim: 128
+n_layers: 2
+dropout: 0.3
+bidirectional: true
+
+# Training Parameters
+epochs: 15
+learning_rate: 0.001
+weight_decay: 0.00001
+gradient_clip: 1.0
+scheduler: "plateau"
+early_stopping_patience: 5
+
+# GloVe Embeddings (reasonable size)
+use_glove: true
+glove_corpus: "6B"
+glove_dim: "300d"
+freeze_embeddings: false
+glove_cache_dir: "data/glove"
+
+# Output Configuration
+output_dir: "models/better"
+model_name: "better_lstm_model"
+add_timestamp: true
+checkpoint_dir: "checkpoints/better"
+save_every: 3
+
+# System Configuration
+device: "auto"
+num_workers: 4
+seed: 42
+
+# Logging Configuration
+log_level: "INFO"
+log_dir: "logs"

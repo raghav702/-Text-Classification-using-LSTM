@@ -1,0 +1,19 @@
+# LSTM Sentiment Classifier - Inference Configuration
+# This file contains configurable parameters for inference
+
+# Model Configuration
+model_path: "models/lstm_sentiment_model.pth"
+vocab_path: "models/lstm_sentiment_model_vocabulary.pth"
+
+# Prediction Parameters
+threshold: 0.5
+show_probability: false
+threshold_analysis: false
+show_stats: true
+
+# System Configuration
+device: "auto"  # Options: auto, cpu, cuda
+log_level: "WARNING"  # Options: DEBUG, INFO, WARNING, ERROR
+
+# Output Configuration
+output_file: null  # Path to save results (JSON or CSV format)

@@ -1,0 +1,63 @@
+# Configuration for LSTM Sentiment Classifier API
+
+# Server Configuration
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  reload: false
+  log_level: "info"
+  access_log: true
+
+# Model Configuration
+model:
+  model_path: "models/improved_lstm_model_20251105_121505.pth"
+  vocab_path: "models/improved_lstm_model_20251105_121505_vocabulary.pth"
+  device: "auto"  # auto, cpu, cuda
+
+# Cache Configuration
+cache:
+  size: 1000
+  ttl_seconds: 3600  # 1 hour
+  enable: true
+
+# Rate Limiting
+rate_limiting:
+  enable: true
+  requests_per_minute: 100
+  burst_size: 20
+
+# Security
+security:
+  allowed_hosts: ["*"]
+  cors_origins: ["*"]
+  max_request_size: 1048576  # 1MB
+  request_timeout: 30  # seconds
+
+# Monitoring
+monitoring:
+  enable_metrics: true
+  enable_logging: true
+  log_requests: true
+  log_errors: true
+  metrics_retention_hours: 24
+
+# Performance
+performance:
+  max_batch_size: 100
+  max_text_length: 10000
+  prediction_timeout: 10  # seconds
+  
+# Health Check
+health_check:
+  enable: true
+  interval_seconds: 30
+  timeout_seconds: 5
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/api/api.log"
+  max_size_mb: 100
+  backup_count: 5

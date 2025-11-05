@@ -1,0 +1,42 @@
+# Fixed Training Configuration
+# Optimized for actual learning and good performance
+
+# Data Configuration
+data_dir: "data/imdb"
+batch_size: 32
+max_vocab_size: 10000
+max_sequence_length: 300
+min_word_freq: 2
+validation_split: 0.2
+
+# Model Architecture (properly sized)
+embedding_dim: 128
+hidden_dim: 64
+n_layers: 2
+dropout: 0.3
+bidirectional: true
+
+# Training Parameters (more epochs, better learning rate)
+epochs: 10
+learning_rate: 0.001
+weight_decay: 0.00001
+gradient_clip: 1.0
+scheduler: "plateau"
+early_stopping_patience: 4
+
+# No GloVe for faster training but still good results
+use_glove: false
+
+# Output Configuration
+output_dir: "models/fixed"
+model_name: "fixed_lstm_model"
+add_timestamp: true
+checkpoint_dir: "checkpoints/fixed"
+
+# System Configuration
+device: "auto"
+num_workers: 2
+seed: 42
+
+# Logging Configuration
+log_level: "INFO"

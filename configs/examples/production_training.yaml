@@ -1,0 +1,48 @@
+# Production Training Configuration
+# Comprehensive configuration for high-quality model training
+
+# Data Configuration
+data_dir: "data/imdb"
+batch_size: 64
+max_vocab_size: 20000
+max_sequence_length: 500
+min_word_freq: 2
+validation_split: 0.15
+
+# Model Architecture (larger model)
+embedding_dim: 300
+hidden_dim: 256
+n_layers: 3
+dropout: 0.4
+bidirectional: true
+
+# Training Parameters (more epochs with careful scheduling)
+epochs: 50
+learning_rate: 0.0005
+weight_decay: 0.00001
+gradient_clip: 1.0
+scheduler: "plateau"
+early_stopping_patience: 10
+
+# GloVe Embeddings (high quality)
+use_glove: true
+glove_corpus: "840B"
+glove_dim: "300d"
+freeze_embeddings: false
+glove_cache_dir: "data/glove"
+
+# Output Configuration
+output_dir: "models/production"
+model_name: "production_lstm_model"
+add_timestamp: true
+checkpoint_dir: "checkpoints/production"
+save_every: 5
+
+# System Configuration
+device: "auto"
+num_workers: 8
+seed: 42
+
+# Logging Configuration
+log_level: "INFO"
+log_dir: "logs/production"

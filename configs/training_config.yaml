@@ -1,0 +1,49 @@
+# LSTM Sentiment Classifier - Training Configuration
+# This file contains all configurable parameters for training
+
+# Data Configuration
+data_dir: "data/imdb"
+batch_size: 64
+max_vocab_size: 10000
+max_sequence_length: 500
+min_word_freq: 2
+validation_split: 0.2
+
+# Model Architecture
+embedding_dim: 300
+hidden_dim: 128
+n_layers: 2
+dropout: 0.3
+bidirectional: true
+
+# Training Parameters
+epochs: 20
+learning_rate: 0.001
+weight_decay: 0.00001
+gradient_clip: 1.0
+scheduler: "plateau"  # Options: plateau, step, cosine, none
+early_stopping_patience: 5
+
+# GloVe Embeddings
+use_glove: true
+glove_corpus: "6B"  # Options: 6B, 42B, 840B
+glove_dim: "300d"   # Options: 50d, 100d, 200d, 300d
+freeze_embeddings: false
+glove_cache_dir: "data/glove"
+
+# Output Configuration
+output_dir: "models"
+model_name: "lstm_sentiment_model"
+add_timestamp: true
+checkpoint_dir: "checkpoints"
+save_every: null  # Save checkpoint every N epochs (null to disable)
+
+# System Configuration
+device: "auto"  # Options: auto, cpu, cuda
+num_workers: 4
+seed: 42
+
+# Logging Configuration
+log_level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+log_file: null     # Auto-generated if null
+log_dir: "logs"
