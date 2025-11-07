@@ -1,0 +1,108 @@
+{
+  "model_config": {
+    "vocab_size": 5000,
+    "embedding_dim": 100,
+    "hidden_dim": 64,
+    "output_dim": 1,
+    "n_layers": 1,
+    "dropout": 0.2,
+    "bidirectional": false,
+    "lstm_output_dim": 64,
+    "total_parameters": 546721,
+    "trainable_parameters": 546721
+  },
+  "training_summary": {
+    "training_status": {
+      "epochs_completed": 3,
+      "total_batches_processed": 1875,
+      "best_epoch": 2
+    },
+    "performance_metrics": {
+      "best_val_loss": 0.9685508627800425,
+      "best_val_accuracy": 0.0,
+      "final_train_loss": 0.6593545648097991,
+      "final_val_loss": 1.193626135777516,
+      "final_val_accuracy": 0.0
+    },
+    "training_progress": {
+      "train_loss_improvement": 0.004358804368972846,
+      "val_loss_improvement": 0.04591786216019056,
+      "accuracy_improvement": 0.0
+    },
+    "model_info": {
+      "vocab_size": 5000,
+      "embedding_dim": 100,
+      "hidden_dim": 64,
+      "output_dim": 1,
+      "n_layers": 1,
+      "dropout": 0.2,
+      "bidirectional": false,
+      "lstm_output_dim": 64,
+      "total_parameters": 546721,
+      "trainable_parameters": 546721
+    },
+    "training_config": {
+      "device": "cpu",
+      "gradient_clip": 1.0,
+      "optimizer": "Adam",
+      "scheduler": null,
+      "criterion": "BCEWithLogitsLoss"
+    }
+  },
+  "embedding_stats": {
+    "method": "random"
+  },
+  "training_args": {
+    "config": "configs/examples/quick_training.yaml",
+    "data_dir": "data/imdb",
+    "batch_size": 32,
+    "max_vocab_size": 5000,
+    "max_sequence_length": 200,
+    "min_word_freq": 2,
+    "validation_split": 0.2,
+    "embedding_dim": 100,
+    "hidden_dim": 64,
+    "n_layers": 1,
+    "dropout": 0.2,
+    "bidirectional": false,
+    "epochs": 5,
+    "learning_rate": 0.01,
+    "weight_decay": 1e-05,
+    "gradient_clip": 1.0,
+    "scheduler": "none",
+    "early_stopping_patience": 3,
+    "use_glove": false,
+    "glove_corpus": "6B",
+    "glove_dim": "300d",
+    "freeze_embeddings": false,
+    "glove_cache_dir": "data/glove",
+    "output_dir": "models/quick",
+    "model_name": "quick_lstm_model",
+    "add_timestamp": true,
+    "checkpoint_dir": "checkpoints",
+    "save_every": null,
+    "device": "cpu",
+    "num_workers": 2,
+    "seed": 42,
+    "log_level": "INFO",
+    "log_file": "training_20251101_160154.log",
+    "log_dir": "logs"
+  },
+  "training_history": {
+    "epochs": 3,
+    "best_val_loss": 0.9685508627800425,
+    "best_val_accuracy": 0.0,
+    "total_time": 326.2261731624603
+  },
+  "vocab_info": {
+    "vocab_size": 5000,
+    "max_vocab_size": 5000,
+    "min_freq": 2,
+    "max_length": 200,
+    "pad_token": "<PAD>",
+    "unk_token": "<UNK>",
+    "pad_idx": 0,
+    "unk_idx": 1
+  },
+  "timestamp": "2025-11-01T16:33:08.509569"
+}
