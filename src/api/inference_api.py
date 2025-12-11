@@ -242,9 +242,10 @@ class InferenceAPIService:
         start_time = time.time()
         
         try:
-            # Check if model is loaded
+            # Auto-load model on first request if not loaded
             if not self.model_loaded:
-                raise HTTPException(status_code=503, detail="Model not loaded")
+                self.logger.info("Loading model on first request...")
+                await self.load_model()
             
             # Check cache first
             cached_result = self._get_cached_prediction(request.text, request.threshold)
@@ -311,9 +312,10 @@ class InferenceAPIService:
         start_time = time.time()
         
         try:
-            # Check if model is loaded
+            # Auto-load model on first request if not loaded
             if not self.model_loaded:
-                raise HTTPException(status_code=503, detail="Model not loaded")
+                self.logger.info("Loading model on first request...")
+                await self.load_model()
             
             predictions = []
             
@@ -500,8 +502,9 @@ async def startup_event():
         cache_ttl=cache_ttl
     )
     
-    # Load model
-    await service.load_model()
+    # Don't load model at startup - load on first request to avoid timeout
+    # await service.load_model()
+    logger.info("API startup complete - model will load on first request")
 
 
 @app.get("/", response_model=Dict)
@@ -582,6 +585,20 @@ async def clear_cache(service: InferenceAPIService = Depends(get_service)):
     """
     service.clear_cache()
     return {"message": "Cache cleared successfully"}
+
+
+@app.post("/warmup")
+async def warmup(service: InferenceAPIService = Depends(get_service)):
+    """
+    Warmup endpoint - Pre-loads the model into memory.
+    
+    Call this before demos/presentations to ensure the model is ready.
+    Makes the first real prediction instant instead of waiting 30-60 seconds.
+    """
+    if not service.model_loaded:
+        await service.load_model()
+        return {"message": "Model loaded successfully", "status": "ready"}
+    return {"message": "Model already loaded", "status": "ready"}
 
 
 @app.get("/model/info")
