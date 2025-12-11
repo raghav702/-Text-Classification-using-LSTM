@@ -486,6 +486,9 @@ async def startup_event():
     """Initialize service on startup."""
     global service
     
+    # Set up logger
+    startup_logger = logging.getLogger(__name__)
+    
     # Get configuration from environment variables
     model_path = os.getenv("MODEL_PATH", "models/improved_lstm_model_20251106_003134.pth")
     vocab_path = os.getenv("VOCAB_PATH", "models/improved_lstm_model_20251106_003134_vocabulary.pth")
@@ -504,7 +507,7 @@ async def startup_event():
     
     # Don't load model at startup - load on first request to avoid timeout
     # await service.load_model()
-    logger.info("API startup complete - model will load on first request")
+    startup_logger.info("API startup complete - model will load on first request")
 
 
 @app.get("/", response_model=Dict)
