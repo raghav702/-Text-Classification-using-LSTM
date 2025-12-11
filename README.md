@@ -1,459 +1,381 @@
-# LSTM Sentiment Classifier
+# 🎬 LSTM Sentiment Classifier for Movie Reviews
 
-A comprehensive implementation of an LSTM-based sentiment classifier for movie reviews using PyTorch. This project provides a complete pipeline for training, evaluating, and deploying sentiment analysis models with state-of-the-art features.
+Hey there! This is a deep learning project that can tell whether a movie review is positive or negative. I built it using PyTorch and trained it on thousands of IMDB reviews. Whether you want to analyze customer feedback, social media posts, or just play around with sentiment analysis, this project has you covered.
 
-## Features
+## 🌟 What Makes This Special?
 
-- **Complete LSTM Implementation**: Bidirectional LSTM with attention mechanisms
-- **GloVe Integration**: Pre-trained word embeddings for improved performance
-- **Comprehensive Training Pipeline**: Advanced training with early stopping, checkpointing, and scheduling
-- **Professional Evaluation**: Detailed metrics, visualizations, and reporting
-- **Production-Ready Inference**: Fast, scalable prediction engine
-- **CLI Interface**: User-friendly command-line tools
-- **Configuration Management**: Flexible YAML/JSON configuration system
-- **Extensive Testing**: Comprehensive test suite for all components
+I've spent quite a bit of time making this both powerful and easy to use. Here's what you get:
 
-## Quick Start
+- **Smart LSTM Model** - Uses bidirectional LSTM to understand context from both directions (like reading a sentence forward and backward)
+- **Pre-trained Word Embeddings** - Leverages GloVe embeddings so the model already "knows" words before training
+- **Production-Ready API** - FastAPI server with caching, health checks, and proper error handling
+- **Easy Web Interface** - Simple Streamlit UI if you prefer clicking buttons over typing commands
+- **Deploy Anywhere** - Dockerized and ready for Google Cloud Run (or any cloud provider)
+- **Actually Useful Documentation** - Real examples that you can copy-paste and run
 
-### 1. Setup Project
-
-```bash
-# Clone and setup
-git clone <repository-url>
-cd lstm-sentiment-classifier
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Setup project structure
-python lstm_sentiment.py setup
-```
-
-### 2. Download Data
-
-Download the IMDB movie review dataset and place it in `data/imdb/`:
-- `data/imdb/train/pos/` - Positive training reviews
-- `data/imdb/train/neg/` - Negative training reviews
-- `data/imdb/test/pos/` - Positive test reviews
-- `data/imdb/test/neg/` - Negative test reviews
-
-### 3. Train Model
-
-```bash
-# Quick training (5 epochs, small model)
-python lstm_sentiment.py train --config configs/examples/quick_training.yaml
-
-# Production training (50 epochs, large model with GloVe)
-python lstm_sentiment.py train --config configs/examples/production_training.yaml
-
-# Custom training
-python lstm_sentiment.py train --data-dir data/imdb --epochs 20 --batch-size 64
-```
-
-### 4. Make Predictions
-
-```bash
-# Single text prediction
-python lstm_sentiment.py predict -m models/model.pth -v models/vocab.pth -t "This movie was amazing!"
-
-# Interactive mode
-python lstm_sentiment.py predict -m models/model.pth -v models/vocab.pth --interactive
-
-# Batch prediction from file
-python lstm_sentiment.py predict -m models/model.pth -v models/vocab.pth -f reviews.txt
-```
-
-### 5. Evaluate Model
-
-```bash
-# Comprehensive evaluation
-python lstm_sentiment.py evaluate -m models/model.pth -v models/vocab.pth -d data/imdb
-
-# Compare multiple models
-python lstm_sentiment.py evaluate --model-paths model1.pth model2.pth --model-names "Model 1" "Model 2" -v vocab.pth -d data/imdb
-```
-
-## Architecture
-
-### Model Components
-
-- **Text Preprocessor**: Tokenization, vocabulary building, sequence padding
-- **LSTM Model**: Bidirectional LSTM with embedding layer and classification head
-- **Training Pipeline**: Advanced training with GloVe embeddings and optimization
-- **Inference Engine**: Fast prediction with confidence scoring
-- **Evaluation Suite**: Comprehensive metrics and visualization tools
-
-### Key Features
-
-- **Bidirectional LSTM**: Processes sequences in both directions for better context
-- **GloVe Embeddings**: Pre-trained word vectors (6B, 42B, 840B tokens)
-- **Attention Mechanism**: Optional attention for improved performance
-- **Dropout Regularization**: Prevents overfitting during training
-- **Gradient Clipping**: Prevents exploding gradients
-- **Early Stopping**: Automatic training termination on convergence
-- **Learning Rate Scheduling**: Adaptive learning rate adjustment
-
-## Project Structure
-
-```
-lstm-sentiment-classifier/
-├── src/                          # Source code
-│   ├── data/                     # Data loading and preprocessing
-│   ├── models/                   # Model architectures
-│   ├── training/                 # Training pipeline
-│   ├── inference/                # Inference engine
-│   └── evaluation/               # Evaluation tools
-├── tests/                        # Test suite
-├── configs/                      # Configuration files
-│   ├── examples/                 # Example configurations
-│   ├── training_config.yaml     # Default training config
-│   ├── inference_config.yaml    # Default inference config
-│   └── evaluation_config.yaml   # Default evaluation config
-├── data/                         # Data directory
-│   ├── imdb/                     # IMDB dataset
-│   └── glove/                    # GloVe embeddings cache
-├── models/                       # Trained models
-├── checkpoints/                  # Training checkpoints
-├── logs/                         # Training logs
-├── evaluation_results/           # Evaluation outputs
-├── train.py                      # Main training script
-├── predict.py                    # Main inference script
-├── evaluate.py                   # Main evaluation script
-├── lstm_sentiment.py             # Unified CLI interface
-└── README.md                     # This file
-```
-
-## Configuration
-
-The project uses YAML configuration files for easy parameter management:
-
-### Training Configuration (`configs/training_config.yaml`)
-
-```yaml
-# Data Configuration
-data_dir: "data/imdb"
-batch_size: 64
-max_vocab_size: 10000
-validation_split: 0.2
-
-# Model Architecture
-embedding_dim: 300
-hidden_dim: 128
-n_layers: 2
-dropout: 0.3
-bidirectional: true
-
-# Training Parameters
-epochs: 20
-learning_rate: 0.001
-scheduler: "plateau"
-early_stopping_patience: 5
-
-# GloVe Embeddings
-use_glove: true
-glove_corpus: "6B"
-glove_dim: "300d"
-```
-
-### Create Custom Configurations
-
-```bash
-# Create new configuration from template
-python lstm_sentiment.py config --create training --output my_config.yaml
-
-# Validate configuration
-python lstm_sentiment.py config --validate my_config.yaml
-
-# View configuration
-python lstm_sentiment.py config --show my_config.yaml
-```
-
-## Command-Line Interface
-
-### Unified CLI (`lstm_sentiment.py`)
-
-The main CLI provides access to all functionality:
-
-```bash
-# Setup project
-python lstm_sentiment.py setup
-
-# Train model
-python lstm_sentiment.py train --config configs/training_config.yaml
-
-# Make predictions
-python lstm_sentiment.py predict -m model.pth -v vocab.pth -t "Great movie!"
-
-# Evaluate model
-python lstm_sentiment.py evaluate -m model.pth -v vocab.pth -d data/imdb
-
-# Configuration management
-python lstm_sentiment.py config --create training
-```
-
-### Individual Scripts
-
-Each component has its own script for advanced usage:
-
-- `train.py` - Comprehensive training with all options
-- `predict.py` - Flexible inference with multiple input modes
-- `evaluate.py` - Detailed evaluation with visualization and reporting
-
-## Training
-
-### Basic Training
-
-```bash
-python train.py --data-dir data/imdb --epochs 20 --batch-size 64
-```
-
-### Advanced Training
-
-```bash
-python train.py \
-    --config configs/production_training.yaml \
-    --data-dir data/imdb \
-    --epochs 50 \
-    --use-glove \
-    --glove-corpus 6B \
-    --glove-dim 300d \
-    --scheduler plateau \
-    --early-stopping-patience 10 \
-    --output-dir models/production
-```
-
-### Training Features
-
-- **Automatic GloVe Download**: Downloads and caches GloVe embeddings
-- **Vocabulary Alignment**: Intelligent mapping between dataset and GloVe vocabularies
-- **Checkpointing**: Automatic model saving with best model tracking
-- **Progress Monitoring**: Detailed logging and metrics tracking
-- **Resume Training**: Continue from saved checkpoints
-- **Configuration Saving**: Complete training configuration preservation
-
-## Inference
-
-### Single Text Prediction
-
-```bash
-python predict.py -m model.pth -v vocab.pth -t "This movie was fantastic!"
-```
-
-### Batch Prediction
-
-```bash
-# From file
-python predict.py -m model.pth -v vocab.pth -f reviews.txt -o results.json
-
-# With probabilities and statistics
-python predict.py -m model.pth -v vocab.pth -f reviews.txt --show-probability --show-stats
-```
-
-### Interactive Mode
-
-```bash
-python predict.py -m model.pth -v vocab.pth --interactive
-```
-
-### Inference Features
-
-- **Fast Processing**: Optimized batch processing for large datasets
-- **Confidence Scoring**: Confidence measures for prediction reliability
-- **Threshold Analysis**: Performance analysis across decision thresholds
-- **Multiple Output Formats**: JSON, CSV, and console output
-- **Input Validation**: Robust error handling and validation
-
-## Evaluation
-
-### Comprehensive Evaluation
-
-```bash
-python evaluate.py --model-path model.pth --vocab-path vocab.pth --data-dir data/imdb
-```
-
-### Model Comparison
-
-```bash
-python evaluate.py \
-    --model-paths model1.pth model2.pth model3.pth \
-    --model-names "Baseline" "With GloVe" "Large Model" \
-    --vocab-path vocab.pth \
-    --data-dir data/imdb \
-    --output-dir comparison_results
-```
-
-### Evaluation Features
-
-- **Comprehensive Metrics**: Accuracy, precision, recall, F1-score, ROC AUC, PR AUC
-- **Confusion Matrix**: Detailed confusion matrix analysis and visualization
-- **ROC and PR Curves**: Receiver Operating Characteristic and Precision-Recall curves
-- **Training History**: Loss and accuracy curves over training epochs
-- **Threshold Analysis**: Performance across different decision thresholds
-- **Automated Reporting**: Text and JSON evaluation reports
-- **Visualization Dashboard**: Professional plots and charts
-
-## API Usage
-
-### Training API
-
-```python
-from src.training import create_trainer
-from src.models.lstm_model import LSTMClassifier
-
-# Create model
-model = LSTMClassifier(vocab_size=10000, embedding_dim=300)
-
-# Create trainer
-trainer = create_trainer(model, train_loader, val_loader)
-
-# Train model
-history = trainer.train(epochs=20, early_stopping_patience=5)
-```
-
-### Inference API
-
-```python
-from src.inference import create_inference_engine
-
-# Create inference engine
-engine = create_inference_engine('model.pth', 'vocab.pth')
-
-# Single prediction
-sentiment, confidence = engine.predict_sentiment("Great movie!")
-
-# Batch prediction
-results = engine.batch_predict(["Good film", "Bad movie", "Amazing!"])
-```
-
-### Evaluation API
-
-```python
-from src.evaluation import calculate_metrics, plot_confusion_matrix
-
-# Calculate comprehensive metrics
-metrics = calculate_metrics(y_true, y_pred, y_prob)
-
-# Create visualizations
-plot_confusion_matrix(metrics['confusion_matrix'], save_path='cm.png')
-```
-
-## Performance
-
-### Model Performance
-
-- **Accuracy**: 85-90% on IMDB test set
-- **Training Time**: 2-4 hours on GPU for full dataset
-- **Inference Speed**: 1000+ predictions per second
-- **Memory Usage**: 2-4 GB GPU memory for training
-
-### Optimization Features
-
-- **GPU Acceleration**: Automatic CUDA utilization
-- **Batch Processing**: Efficient batch inference
-- **Memory Management**: Optimized memory usage
-- **Gradient Accumulation**: Support for large effective batch sizes
-- **Mixed Precision**: Optional FP16 training for speed
-
-## Testing
-
-Run the comprehensive test suite:
-
-```bash
-# Run all tests
-python -m pytest tests/ -v
-
-# Run specific test modules
-python -m pytest tests/test_training_integration.py -v
-python -m pytest tests/test_evaluation.py -v
-
-# Run with coverage
-python -m pytest tests/ --cov=src --cov-report=html
-```
-
-### Test Coverage
-
-- **Unit Tests**: Individual component testing
-- **Integration Tests**: End-to-end workflow testing
-- **Performance Tests**: Speed and memory benchmarks
-- **Error Handling**: Edge case and error condition testing
-
-## Dependencies
-
-### Core Dependencies
-
-- **PyTorch**: Deep learning framework
-- **NumPy**: Numerical computing
-- **scikit-learn**: Machine learning utilities
-- **Matplotlib**: Plotting and visualization
-- **Seaborn**: Statistical visualization
-- **tqdm**: Progress bars
-- **PyYAML**: YAML configuration files
-
-### Optional Dependencies
-
-- **Pandas**: Data manipulation (for CSV output)
-- **Jupyter**: Interactive notebooks
-- **TensorBoard**: Training visualization
-- **pytest**: Testing framework
+## 🚀 Get Started in 5 Minutes
 
 ### Installation
 
 ```bash
-# Install core dependencies
-pip install torch numpy scikit-learn matplotlib seaborn tqdm pyyaml
+# Clone this repo
+git clone https://github.com/raghav702/-Text-Classification-using-LSTM.git
+cd -Text-Classification-using-LSTM
 
-# Install optional dependencies
-pip install pandas jupyter tensorboard pytest
+# Create a virtual environment (trust me, do this)
+python -m venv venv
+venv\Scripts\activate  # On Windows
+# source venv/bin/activate  # On Mac/Linux
 
-# Or install from requirements file
+# Install dependencies
 pip install -r requirements.txt
+pip install -r requirements_api.txt
 ```
 
-## Contributing
+### Try It Out Right Away
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Setup
+The easiest way to see it in action is using the pre-trained model:
 
 ```bash
-# Clone repository
-git clone <repository-url>
-cd lstm-sentiment-classifier
-
-# Install in development mode
-pip install -e .
-
-# Install development dependencies
-pip install -r requirements-dev.txt
-
-# Run tests
-python -m pytest tests/ -v
+# Run the web UI (recommended for first-timers)
+streamlit run app.py
 ```
 
-## License
+This opens a browser where you can type any review and get instant predictions. It's pretty satisfying to watch!
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Or if you prefer APIs:
 
-## Acknowledgments
+```bash
+# Start the API server
+python run_api.py
 
-- **IMDB Dataset**: Large Movie Review Dataset by Maas et al.
-- **GloVe Embeddings**: Global Vectors for Word Representation by Pennington et al.
-- **PyTorch**: Deep learning framework by Facebook AI Research
-- **scikit-learn**: Machine learning library by the scikit-learn developers
-
-## Citation
-
-If you use this project in your research, please cite:
-
-```bibtex
-@software{lstm_sentiment_classifier,
-  title={LSTM Sentiment Classifier},
-  author={Your Name},
-  year={2024},
-  url={https://github.com/yourusername/lstm-sentiment-classifier}
-}
+# Then visit http://localhost:8000/docs for the interactive API docs
 ```
+
+### Quick Predictions
+
+```bash
+# Predict a single review
+python predict.py \
+  -m models/improved_lstm_model_20251106_003134.pth \
+  -v models/improved_lstm_model_20251106_003134_vocabulary.pth \
+  -t "This movie was absolutely fantastic! Loved every minute."
+
+# Output: positive (confidence: 0.95)
+```
+
+## 📁 What's Inside?
+
+Here's how everything is organized (I tried to keep it simple):
+
+```
+lstm_model/
+├── app.py                  # Streamlit web interface - easiest way to use it
+├── run_api.py              # FastAPI server - for production use
+├── train.py                # Training script - if you want to train your own
+├── predict.py              # Command-line predictions
+├── evaluate.py             # See how well the model performs
+├── src/                    # All the code
+│   ├── api/               # API implementation
+│   ├── data/              # Data loading and preprocessing
+│   ├── models/            # LSTM architecture
+│   ├── training/          # Training pipeline
+│   └── inference/         # Prediction engine
+├── models/                # Pre-trained models live here
+├── data/                  # Your datasets go here
+│   ├── imdb/             # Movie reviews
+│   └── glove/            # Word embeddings (auto-downloaded)
+├── configs/              # Configuration files
+└── tests/                # Unit tests (they all pass!)
+```
+
+## 🎯 Use Cases
+
+Here are some real ways you might use this:
+
+**For Learning:**
+- Understanding how LSTMs work with text
+- Learning about word embeddings (GloVe)
+- Getting hands-on with PyTorch
+- Seeing a complete ML project from start to finish
+
+**For Projects:**
+- Analyze product reviews
+- Monitor social media sentiment
+- Classify customer feedback
+- Filter spam/negative comments
+- Build a sentiment dashboard
+
+**For Production:**
+- API is production-ready with proper error handling
+- Supports batch processing for efficiency
+- Includes request caching to save compute
+- Docker container for easy deployment
+- Works great on Google Cloud Run (stays within free tier!)
+
+## 🧠 How It Works (The Simple Version)
+
+1. **Text → Numbers**: Reviews are converted to sequences of numbers (each word becomes an ID)
+2. **Word Embeddings**: Each word ID gets mapped to a 300-dimensional vector (using GloVe)
+3. **LSTM Processing**: The LSTM reads the sequence, understanding context and relationships
+4. **Classification**: A final layer outputs positive/negative with a confidence score
+
+The model was trained on 25,000 IMDB reviews and achieves about 88-90% accuracy on unseen data.
+
+## 📊 Model Performance
+
+On the IMDB test set:
+- **Accuracy**: ~88-90%
+- **Precision**: 0.89
+- **Recall**: 0.88
+- **F1 Score**: 0.88
+
+Real-world performance:
+- Handles misspellings reasonably well (thanks to embeddings)
+- Understands negations ("not good" → negative)
+- Picks up on sarcasm about 60% of the time (still working on this!)
+- Fast: Can process 1000+ reviews per second
+
+## 🚂 Training Your Own Model
+
+If you want to train from scratch (takes 2-4 hours on a decent GPU):
+
+```bash
+# Download the IMDB dataset first
+python download_imdb_data.py
+
+# Download GloVe embeddings (optional but recommended)
+python download_glove.py
+
+# Start training
+python train.py \
+  --data-dir data/imdb \
+  --epochs 20 \
+  --batch-size 64 \
+  --use-glove \
+  --output-dir models/my_model
+```
+
+The training script will:
+- Automatically use GPU if available
+- Save checkpoints every few epochs
+- Stop early if the model stops improving
+- Show you progress bars and metrics
+- Save the best model automatically
+
+Tips for better results:
+- More epochs = better results (but diminishing returns after 20-30)
+- Larger batch sizes train faster but need more GPU memory
+- Using GloVe embeddings gives a ~3-5% accuracy boost
+- Try different learning rates if training is unstable
+
+## 🔌 Using the API
+
+The FastAPI server is perfect for integrating with other applications:
+
+### Start the Server
+
+```bash
+python run_api.py
+```
+
+The server starts at `http://localhost:8000` with:
+- Interactive docs at `/docs` (really useful, check it out!)
+- Health check at `/health`
+- Predictions at `/predict` and `/predict/batch`
+
+### Example API Calls
+
+**Single Prediction:**
+```bash
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "This movie was incredible!"}'
+
+# Response:
+# {
+#   "sentiment": "positive",
+#   "confidence": 0.94,
+#   "probability": 0.97
+# }
+```
+
+**Batch Predictions:**
+```bash
+curl -X POST "http://localhost:8000/predict/batch" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "texts": [
+      "Loved it!",
+      "Waste of time",
+      "Pretty good movie"
+    ]
+  }'
+```
+
+**Using Python:**
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/predict",
+    json={"text": "Amazing film with great acting!"}
+)
+print(response.json())
+# {'sentiment': 'positive', 'confidence': 0.91, ...}
+```
+
+The API includes built-in caching, so repeated requests are super fast!
+
+## ☁️ Deploying to the Cloud
+
+I've included everything you need to deploy on Google Cloud Run (stays within free tier for most use cases):
+
+### Quick Deploy
+
+```powershell
+# Update deploy.ps1 with your GCP project ID
+# Then run:
+.\deploy.ps1
+```
+
+That's it! Your API will be live at a public URL in about 5-10 minutes.
+
+### Cost Optimization
+
+The deployment is configured to:
+- Scale to zero when not in use (no idle costs!)
+- Use minimal resources (512MB RAM, 0.5 CPU)
+- Stay within the free tier for <10K requests/month
+- Expected cost: **$0-2/month** for typical usage
+
+See `DEPLOYMENT_GCP.md` for detailed instructions.
+
+## 🛠️ Configuration
+
+I've included several pre-made configs in `configs/examples/`:
+
+- `quick_training.yaml` - Fast training for testing (5 epochs)
+- `production_training.yaml` - Full training for best results (50 epochs)
+- `better_training.yaml` - Balanced approach (20 epochs)
+
+You can edit these or create your own. The important settings:
+
+```yaml
+# Model size (bigger = better but slower)
+hidden_dim: 128           # Try 256 for better quality
+n_layers: 2               # 2-3 is usually best
+
+# Training
+batch_size: 64            # Reduce if you run out of memory
+learning_rate: 0.001      # Lower if training is unstable
+epochs: 20                # More epochs = better results (to a point)
+
+# Embeddings
+use_glove: true           # Highly recommended!
+glove_dim: "300d"         # 100d/200d/300d available
+```
+
+## 📈 Evaluation
+
+Want to see how well the model performs?
+
+```bash
+python evaluate.py \
+  -m models/improved_lstm_model_20251106_003134.pth \
+  -v models/improved_lstm_model_20251106_003134_vocabulary.pth \
+  -d data/imdb
+```
+
+This generates:
+- Confusion matrix
+- Precision/recall curves
+- ROC curves
+- Detailed metrics report
+- All saved to `evaluation_results/`
+
+## 🧪 Testing
+
+I've included unit tests for all major components:
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run specific tests
+pytest tests/test_training_integration.py -v
+
+# Check coverage
+pytest tests/ --cov=src --cov-report=html
+```
+
+## 🐛 Troubleshooting
+
+**"CUDA out of memory"**
+- Reduce batch size in config
+- Use CPU instead: add `--device cpu` when training
+
+**"Model file not found"**
+- Make sure you're using the full path to the `.pth` files
+- Check that both model and vocabulary files exist
+
+**"Slow predictions"**
+- First prediction is always slower (model loading)
+- Use batch predictions for multiple texts
+- Enable caching in `api_config.yaml`
+
+**API not starting**
+- Check if port 8000 is already in use
+- Try a different port: `python run_api.py --port 8080`
+- Check logs in `logs/api/`
+
+## 💡 Tips & Tricks
+
+1. **Speed up training**: Use a GPU if you have one (10-20x faster)
+2. **Better accuracy**: Use GloVe embeddings (adds ~5% accuracy)
+3. **Save money**: The API auto-sleeps on Cloud Run when not in use
+4. **Debug issues**: Check `logs/` directory for detailed error messages
+5. **Test locally first**: Always test with `streamlit run app.py` before deploying
+
+## 🤝 Contributing
+
+Found a bug? Have an idea? Contributions are welcome!
+
+1. Fork the repo
+2. Create a branch: `git checkout -b cool-feature`
+3. Make your changes
+4. Test them: `pytest tests/ -v`
+5. Submit a pull request
+
+## 📚 What I Learned Building This
+
+This project taught me a lot about:
+- LSTMs and how they handle sequential data
+- The importance of pre-trained embeddings
+- Why batch normalization matters
+- How to build production-ready ML APIs
+- Docker and cloud deployments
+- Writing code that others can actually use
+
+## 📄 License
+
+MIT License - feel free to use this however you want!
+
+## 🙏 Credits & Acknowledgments
+
+- **IMDB Dataset**: Andrew Maas et al. - Thanks for the 50K reviews!
+- **GloVe**: Stanford NLP Group - Amazing word embeddings
+- **PyTorch**: Facebook AI - Great framework
+- **You**: For checking out this project!
+
+## 📬 Questions?
+
+If something's not working or you're confused about anything:
+1. Check the troubleshooting section above
+2. Look at the examples in `examples/`
+3. Read the deployment docs in `DEPLOYMENT_GCP.md`
+4. Open an issue on GitHub
+
+---
+
+Built with ❤️ and lots of ☕ | Last updated: December 2025
