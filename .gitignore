@@ -24,8 +24,8 @@ wheels/
 *.egg
 MANIFEST
 
-# PyTorch models and data
-models/*.pth
+# PyTorch models and data (keep trained models for deployment)
+# models/*.pth  # Commented out - we need models for deployment
 data/imdb/
 data/glove/
 checkpoints/
