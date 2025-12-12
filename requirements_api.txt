@@ -21,10 +21,8 @@ pyyaml>=6.0.1
 onnx>=1.15.0
 onnxruntime>=1.16.0
 
-# Core ML dependencies (if not already installed)
-torch>=2.0.0
-torchtext>=0.15.0
-numpy>=1.24.0
+# Core ML dependencies already installed from requirements.txt
+# torch, numpy, etc. are already available
 
 # Development and testing
 pytest>=7.4.0
