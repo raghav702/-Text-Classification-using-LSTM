@@ -19,6 +19,9 @@ RUN pip install --no-cache-dir \
 # Copy application code
 COPY . .
 
+# Make startup script executable
+RUN chmod +x start.sh
+
 # Expose port
 EXPOSE 8080
 
@@ -26,6 +29,6 @@ EXPOSE 8080
 ENV PORT=8080
 ENV PYTHONUNBUFFERED=1
 
-# Run the FastAPI server
-CMD ["uvicorn", "src.api.inference_api:app", "--host", "0.0.0.0", "--port", "8080"]
+# Run both FastAPI backend and Streamlit frontend
+CMD ["./start.sh"]
 
