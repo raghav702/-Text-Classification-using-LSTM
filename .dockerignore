@@ -29,9 +29,9 @@ checkpoints/
 evaluation_results/
 examples/
 
-# Deployment scripts
+# Deployment scripts (but keep start.sh for container startup)
 *.ps1
-*.sh
+deploy.sh
 cloudbuild.yaml
 DEPLOYMENT*.md
 
