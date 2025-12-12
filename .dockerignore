@@ -7,11 +7,15 @@ __pycache__/
 venv/
 env/
 ENV/
+.venv/
+*.tar.gz
+*.zip
+.venv/
 
-# Data files
-data/imdb/aclImdb/
-data/imdb/train/
-data/imdb/test/
+# Data files - exclude ALL (not needed for inference with pre-trained model)
+data/
+*.tar.gz
+*.zip
 
 # Logs and temporary files
 logs/
@@ -23,6 +27,13 @@ logs/
 # Training artifacts (keep only best model)
 checkpoints/
 evaluation_results/
+examples/
+
+# Deployment scripts
+*.ps1
+*.sh
+cloudbuild.yaml
+DEPLOYMENT*.md
 
 # Git
 .git/
@@ -36,3 +47,13 @@ evaluation_results/
 tests/
 test_*.py
 *_test.py
+
+# Training code (not needed for API)
+train.py
+evaluate.py
+lstm_sentiment.py
+download_*.py
+cleanup*.ps1
+idea.md
+IMPROVEMENTS_README.md
+PROJECT_STRUCTURE.md

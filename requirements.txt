@@ -1,37 +1,25 @@
-# Core dependencies for LSTM Sentiment Classifier
+# Core deep learning (CPU only)
+torch==2.2.2
 
-# Deep Learning
-torch>=1.9.0
+# Scientific computing
+numpy==1.26.4
 
-# Scientific Computing
-numpy>=1.21.0
+# Machine learning
+scikit-learn==1.4.2
 
-# Machine Learning
-scikit-learn>=1.0.0
+# Data processing
+pandas==2.1.4
+datasets==2.18.0
 
-# Data Processing
-pandas>=1.3.0
-datasets>=2.0.0
+# Visualization (optional – remove if not needed at runtime)
+matplotlib==3.8.4
+seaborn==0.13.2
 
-# Visualization
-matplotlib>=3.4.0
-seaborn>=0.11.0
+# Config / utils
+PyYAML==6.0.1
+tqdm==4.66.4
+requests==2.32.3
 
-# Configuration
-PyYAML>=5.4.0
-
-# Progress Bars
-tqdm>=4.62.0
-
-# Utilities
-requests>=2.25.0
-
-# API (if using run_api.py)
-fastapi
-uvicorn
-
-# Optional NLP Libraries for Advanced Preprocessing
-# Install with: pip install nltk spacy
-# For spaCy: python -m spacy download en_core_web_sm
-# nltk>=3.6.0
-# spacy>=3.4.0
+# API
+fastapi==0.110.2
+uvicorn==0.29.0

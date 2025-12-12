@@ -15,8 +15,12 @@ from tqdm import tqdm
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-from download_glove import GloVeEmbeddingProcessor
+# Only import GloVeEmbeddingProcessor when needed (not during inference)
+try:
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+    from download_glove import GloVeEmbeddingProcessor
+except ImportError:
+    GloVeEmbeddingProcessor = None
 
 
 class EmbeddingManager:
